@@ -11,10 +11,8 @@ export default function ProductList( { navigation }) {
       title: "Lista de Produtos",
       headerTitleAlign: "center",
       headerLeft: ()=>{
-        return <Button title="Logout" />
       },
       headerRight: ()=>{
-        return <Button title="Grupo" />
       },
     });
   }, []);
