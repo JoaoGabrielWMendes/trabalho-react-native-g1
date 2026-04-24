@@ -1,6 +1,7 @@
 import { useEffect, useState, useLayoutEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, ScrollView, Image, FlatList, TouchableOpacity} from "react-native";
 import { getProducts } from "../services/productService";
+import { Button } from "react-native";
 
 export default function ProductList( { navigation }) {
   const [loading, setLoading] = useState(false);
@@ -50,6 +51,17 @@ export default function ProductList( { navigation }) {
    // </ScrollView>
   //);
 //}
+
+
+//função do botão do buton que importei para adicionar o botão que navega para a descrição do grupo 
+
+React.useLayoutEffect(() => {
+  navigation.setOptions({
+    headerRight: () => (
+      <Button title="Info" onPress={() => navigation.navigate("Info")} />
+    ),
+  });
+}, [navigation]);
 
 return (
   <TouchableOpacity style={styles.container}>
