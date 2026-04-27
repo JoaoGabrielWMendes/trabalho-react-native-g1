@@ -24,13 +24,11 @@ const Info = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.titulo}>Informações do Grupo</Text>
-
       <Text style={styles.descricao}>
         Somos um grupo de desenvolvedores iniciantes explorando React Native,
         criando aplicações mobile com consumo de API. Este projeto foi feito
         com foco em aprendizado, criatividade e organização de código.
       </Text>
-
       {integrantes.map((item, index) => (
         <View key={index} style={styles.card}>
           <Text style={styles.nome}>{item.nome}</Text>

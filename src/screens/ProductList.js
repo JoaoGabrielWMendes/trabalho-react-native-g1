@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   Button,
+  Platform,
 } from "react-native";
 import { getProducts } from "../services/productService";
 
@@ -15,21 +16,15 @@ export default function ProductList({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
 
-  // Configuração do cabeçalho
+  // Header com botão (opcional)
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Lista de Produtos",
       headerTitleAlign: "center",
-      headerRight: () => (
-        <Button
-          title="Info"
-          onPress={() => navigation.navigate("Info")}
-        />
-      ),
     });
   }, [navigation]);
 
-  // Buscar produtos da API
+  // Buscar produtos
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -45,19 +40,20 @@ export default function ProductList({ navigation }) {
     fetchProducts();
   }, []);
 
-  // Tela de carregamento
+  // Loading
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#4A90E2" />
       </View>
     );
   }
 
-  // Renderização de cada produto
+  // Render produto
   const renderProduct = ({ item }) => (
     <TouchableOpacity
       style={styles.card}
+      activeOpacity={0.8}
       onPress={() =>
         navigation.navigate("ProductDetail", {
           product: item,
@@ -74,14 +70,21 @@ export default function ProductList({ navigation }) {
         {item.title}
       </Text>
 
-      <Text style={styles.price}>
-        R$ {item.price}
-      </Text>
+      <Text style={styles.price}>R$ {item.price}</Text>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
+      {/* BOTÃO BONITO (FAB) */}
+      <TouchableOpacity
+        style={styles.fab}
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate("Info")}
+      >
+        <Text style={styles.fabIcon}>ℹ️</Text>
+      </TouchableOpacity>
+
       <FlatList
         data={items}
         keyExtractor={(item) => item.id.toString()}
@@ -97,7 +100,7 @@ export default function ProductList({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F5F7FA",
     padding: 10,
   },
 
@@ -112,13 +115,21 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#fff",
     width: "48%",
-    padding: 10,
+    padding: 12,
     marginBottom: 15,
-    borderRadius: 10,
+    borderRadius: 15,
     alignItems: "center",
-    elevation: 3,
+
+    // sombra iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+
+    // sombra Android
+    elevation: 4,
   },
 
   image: {
@@ -129,14 +140,43 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: "600",
     textAlign: "center",
     marginBottom: 5,
+    color: "#333",
   },
 
   price: {
     fontSize: 16,
-    color: "green",
+    color: "#2ECC71",
     fontWeight: "bold",
+  },
+
+  // FAB bonito
+  fab: {
+    position: "absolute",
+    top: 15,
+    right: 15,
+    width: 55,
+    height: 55,
+    borderRadius: 30,
+    backgroundColor: "#4A90E2",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+
+    // sombra iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+
+    // sombra Android
+    elevation: 8,
+  },
+
+  fabIcon: {
+    fontSize: 22,
+    color: "#fff",
   },
 });
