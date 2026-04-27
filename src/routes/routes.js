@@ -1,11 +1,13 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import info from "../screens/info";
+import Info from "../screens/Info";
 import ProductList from "../screens/ProductList";
 import ProductDetail from "../screens/ProductDetail";
 import Login from "../screens/Login"
 
 const AppStack = createStackNavigator();
+
+
 
 export default function Routes() {
   return (
@@ -20,8 +22,8 @@ export default function Routes() {
           component={ProductList}
           options={{ headerShown: false }}/>
           <AppStack.Screen
-            name="info"
-            component={info}
+            name="Info"
+            component={Info}
             options={{ title: "Informações do Grupo"}}
             />        
       </AppStack.Navigator>
