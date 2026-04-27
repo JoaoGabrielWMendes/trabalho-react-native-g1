@@ -1,34 +1,48 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 
 const Info = () => {
   const integrantes = [
     {
-      nome: 'Gustavo Barbosa Portela',
-      ra: '1137640',
+      nome: "Gustavo Barbosa Portela",
+      ra: "1137640",
     },
     {
-      nome: 'Bruno Galvagni',
-      ra: '1137862',
+      nome: "Bruno Galvagni",
+      ra: "1137862",
     },
     {
-      nome: 'João Gabriel Wink Mendes',
-      ra: '1137652',
+      nome: "João Gabriel Wink Mendes",
+      ra: "1137652",
     },
     {
-      nome: 'Francisco Volpato',
-      ra: '1137688',
+      nome: "Francisco Volpato",
+      ra: "1137688",
     },
   ];
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.titulo}>Informações do Grupo</Text>
-      <Text style={styles.descricao}>
-        Somos um grupo de desenvolvedores iniciantes explorando React Native,
-        criando aplicações mobile com consumo de API. Este projeto foi feito
-        com foco em aprendizado, criatividade e organização de código.
-      </Text>
+      <View style={styles.headerBox}>
+        <Text style={styles.titulo}>Informações do Grupo</Text>
+
+        <Text style={styles.descricao}>
+          Somos um grupo de desenvolvedores iniciantes
+          explorando React Native, criando aplicações
+          mobile com consumo de API.
+        </Text>
+
+        <Text style={styles.descricao}>
+          Este projeto foi desenvolvido com foco em
+          aprendizado, criatividade e organização de código.
+        </Text>
+      </View>
+
       {integrantes.map((item, index) => (
         <View key={index} style={styles.card}>
           <Text style={styles.nome}>{item.nome}</Text>
@@ -42,38 +56,73 @@ const Info = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#dbeafe",
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
+
+  headerBox: {
+    width: "100%",
+    backgroundColor: "#ffffff",
+    padding: 25,
+    borderRadius: 20,
+    marginBottom: 25,
+    alignItems: "center",
+
+    shadowColor: "#2563eb",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+
   titulo: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#1d4ed8",
     marginBottom: 15,
-    color: '#000',
-    textShadowColor: 'black',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 4,
+    textAlign: "center",
   },
+
   descricao: {
     fontSize: 16,
-    marginBottom: 20,
-    textAlign: 'center',
-    color: '#000',
-    textShadowColor: 'black',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 4,
-  },
-  card: {
-    width: '100%',
-    backgroundColor: '#ffffff',
-    padding: 15,
-    borderRadius: 10,
+    textAlign: "center",
+    color: "#475569",
+    lineHeight: 24,
     marginBottom: 10,
-    shadowColor: 'rgba(0, 0, 0, .5)',
-    shadowOffset: { width: 2, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
+  },
+
+  card: {
+    width: "100%",
+    backgroundColor: "#ffffff",
+    padding: 20,
+    borderRadius: 18,
+    marginBottom: 15,
+
+    shadowColor: "#2563eb",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+
+  nome: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1e3a8a",
+    marginBottom: 8,
+  },
+
+  ra: {
+    fontSize: 16,
+    color: "#2563eb",
+    fontWeight: "600",
   },
 });
 
