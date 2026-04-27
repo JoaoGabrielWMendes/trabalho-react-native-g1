@@ -12,7 +12,7 @@ try{
   }catch(error){
 
     if (error.response){
-        if(error.response.status === 400){
+        if(error.response.status === 400||error.response.status === 401){
             throw new Error("INVALID_CREDENTIALS");
         }
     }
