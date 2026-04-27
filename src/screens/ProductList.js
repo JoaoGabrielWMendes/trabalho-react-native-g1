@@ -7,8 +7,6 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  Button,
-  Platform,
 } from "react-native";
 import { getProducts } from "../services/productService";
 
@@ -16,11 +14,15 @@ export default function ProductList({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
 
-  // Header com botão (opcional)
+  // Header estilizado azul
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Lista de Produtos",
       headerTitleAlign: "center",
+      headerStyle: {
+        backgroundColor: "#2563eb",
+      },
+      headerTintColor: "#fff",
     });
   }, [navigation]);
 
@@ -44,7 +46,7 @@ export default function ProductList({ navigation }) {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#4A90E2" />
+        <ActivityIndicator size="large" color="#2563eb" />
       </View>
     );
   }
@@ -53,7 +55,7 @@ export default function ProductList({ navigation }) {
   const renderProduct = ({ item }) => (
     <TouchableOpacity
       style={styles.card}
-      activeOpacity={0.8}
+      activeOpacity={0.85}
       onPress={() =>
         navigation.navigate("ProductDetail", {
           product: item,
@@ -76,7 +78,7 @@ export default function ProductList({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* BOTÃO BONITO (FAB) */}
+      {/* Botão Info */}
       <TouchableOpacity
         style={styles.fab}
         activeOpacity={0.8}
@@ -85,6 +87,9 @@ export default function ProductList({ navigation }) {
         <Text style={styles.fabIcon}>ℹ️</Text>
       </TouchableOpacity>
 
+      {/* Título visual */}
+      <Text style={styles.pageTitle}>Produtos</Text>
+
       <FlatList
         data={items}
         keyExtractor={(item) => item.id.toString()}
@@ -92,6 +97,7 @@ export default function ProductList({ navigation }) {
         renderItem={renderProduct}
         columnWrapperStyle={styles.row}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContent}
       />
     </View>
   );
@@ -100,14 +106,28 @@ export default function ProductList({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F7FA",
-    padding: 10,
+    backgroundColor: "#dbeafe",
+    paddingHorizontal: 12,
+    paddingTop: 15,
   },
 
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#dbeafe",
+  },
+
+  pageTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#1d4ed8",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+
+  listContent: {
+    paddingBottom: 20,
   },
 
   row: {
@@ -115,68 +135,64 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     width: "48%",
-    padding: 12,
-    marginBottom: 15,
-    borderRadius: 15,
+    padding: 14,
+    marginBottom: 16,
+    borderRadius: 18,
     alignItems: "center",
 
-    // sombra iOS
-    shadowColor: "#000",
+    shadowColor: "#2563eb",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
 
-    // sombra Android
-    elevation: 4,
+    elevation: 5,
   },
 
   image: {
     width: 100,
     height: 100,
-    marginBottom: 10,
+    marginBottom: 12,
   },
 
   title: {
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 5,
-    color: "#333",
+    marginBottom: 8,
+    color: "#1e293b",
+    minHeight: 40,
   },
 
   price: {
-    fontSize: 16,
-    color: "#2ECC71",
+    fontSize: 18,
+    color: "#2563eb",
     fontWeight: "bold",
   },
 
-  // FAB bonito
   fab: {
     position: "absolute",
-    top: 15,
-    right: 15,
-    width: 55,
-    height: 55,
+    top: 20,
+    right: 20,
+    width: 58,
+    height: 58,
     borderRadius: 30,
-    backgroundColor: "#4A90E2",
+    backgroundColor: "#2563eb",
     justifyContent: "center",
     alignItems: "center",
     zIndex: 10,
 
-    // sombra iOS
-    shadowColor: "#000",
+    shadowColor: "#1d4ed8",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
 
-    // sombra Android
     elevation: 8,
   },
 
   fabIcon: {
-    fontSize: 22,
+    fontSize: 24,
     color: "#fff",
   },
 });
