@@ -1,95 +1,142 @@
-import { useEffect, useState, useLayoutEffect } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView, Image, FlatList, TouchableOpacity} from "react-native";
+import React, { useEffect, useState, useLayoutEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  Button,
+} from "react-native";
 import { getProducts } from "../services/productService";
-import { Button } from "react-native";
 
-export default function ProductList( { navigation }) {
-  const [loading, setLoading] = useState(false);
+export default function ProductList({ navigation }) {
+  const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
+  // Configuração do cabeçalho
+  useLayoutEffect(() => {
     navigation.setOptions({
       title: "Lista de Produtos",
       headerTitleAlign: "center",
-      headerLeft: ()=>{
-      },
-      headerRight: ()=>{
-      },
+      headerRight: () => (
+        <Button
+          title="Info"
+          onPress={() => navigation.navigate("Info")}
+        />
+      ),
     });
-  }, []);
-  
+  }, [navigation]);
+
+  // Buscar produtos da API
   useEffect(() => {
-    setLoading(true);
-    const response = getItems();
-    setItems(response.data);
-    setLoading(false);
+    async function fetchProducts() {
+      try {
+        const response = await getProducts();
+        setItems(response.data);
+      } catch (error) {
+        console.log("Erro ao buscar produtos:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
   }, []);
-//n é legal usar async direto no useEffect, por isso criei a função getItems
 
-  async function getItems() {
-    const response = await getProducts();
-    console.log(response);
-  }
-
+  // Tela de carregamento
   if (loading) {
-    <View style={styles.container}>
-      <ActivityIndicator size={"large"} color="#00000f" />
-    </View>;
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
   }
 
-//  return (
-  //  <ScrollView style={styles.containerScroll}>
-    //  {
-      //  items.map((produto) => (
-        //<View>
-          //<Text>{produto.title}</Text>
-        //  <Text>{produto.price}</Text>
-          //<Text>{{uri: produto.imageUrl}}</Text>
-      //  </View>
-       // ))
-     // }
-   // </ScrollView>
-  //);
-//}
+  // Renderização de cada produto
+  const renderProduct = ({ item }) => (
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() =>
+        navigation.navigate("ProductDetail", {
+          product: item,
+        })
+      }
+    >
+      <Image
+        source={{ uri: item.image }}
+        style={styles.image}
+        resizeMode="contain"
+      />
 
+      <Text style={styles.title} numberOfLines={2}>
+        {item.title}
+      </Text>
 
-//função do botão do buton que importei para adicionar o botão que navega para a descrição do grupo 
+      <Text style={styles.price}>
+        R$ {item.price}
+      </Text>
+    </TouchableOpacity>
+  );
 
-React.useLayoutEffect(() => {
-  navigation.setOptions({
-    headerRight: () => (
-      <Button title="Info" onPress={() => navigation.navigate("Info")} />
-    ),
-  });
-}, [navigation]);
-
-return (
-  <TouchableOpacity style={styles.container}>
-    <FlatList
-     data={items}
-      keyExtractor={(item) => item.id}
-      numColumns={2}
-      renderItem={({ item }) => (
-        <TouchableOpacity style={{ marginBottom: 16 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>{item.title}</Text>
-          <Text style={{ fontSize: 16 }}>{item.price}</Text>
-        </TouchableOpacity>
-      )}
-    />
-  </TouchableOpacity>
-)};
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={items}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        renderItem={renderProduct}
+        columnWrapperStyle={styles.row}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 16,
-    alignItems: "center",
-    justifyContent: "center"
+    padding: 10,
   },
-  containerScroll: {
+
+  loadingContainer: {
     flex: 1,
-    backgroundColor: "#fff",
-    padding: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  row: {
+    justifyContent: "space-between",
+  },
+
+  card: {
+    backgroundColor: "#f9f9f9",
+    width: "48%",
+    padding: 10,
+    marginBottom: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    elevation: 3,
+  },
+
+  image: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+  },
+
+  title: {
+    fontSize: 14,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 5,
+  },
+
+  price: {
+    fontSize: 16,
+    color: "green",
+    fontWeight: "bold",
   },
 });
