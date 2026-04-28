@@ -13,7 +13,6 @@ export default function ProductDetail({ route, navigation }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Card principal */}
       <View style={styles.card}>
         <Image
           source={{ uri: product.image }}

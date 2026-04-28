@@ -3,7 +3,9 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
+    Alert,
   Text,
+
 } from "react-native";
 
 import { login } from "../services/loginService";
@@ -23,11 +25,11 @@ export default function Login({ navigation }) {
       navigation.navigate("Home");
     } catch (error) {
       if (error.message === "INVALID_CREDENTIALS") {
-        alert("Usuário ou senha incorretos");
+          Alert.alert("Falha no Login", "Usuário ou senha incorretos");
         return;
       }
 
-      alert("Erro inesperado");
+        Alert.alert("Ops!", "Erro inesperado");
       console.log(error);
     } finally {
       setLoading(false);
