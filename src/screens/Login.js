@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-    Alert,
+  Alert,
   Text,
 
 } from "react-native";

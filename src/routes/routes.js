@@ -28,12 +28,14 @@ export default function Routes() {
           name="ProductDetail"
           component={ProductDetail}
           options={{ title: "Detalhes do Produto" }}
+          options={{ headerShown: true }}
         />
 
         <AppStack.Screen
           name="Info"
           component={Info}
           options={{ title: "Informações do Grupo" }}
+          options={{ headerShown: true }}
         />
       </AppStack.Navigator>
     </NavigationContainer>
